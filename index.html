@@ -355,13 +355,13 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
 /* ─── STAGE SELECT ─── */
 #stageScreen{background:#03020f;}
 #stage-canvas{position:absolute;inset:0;z-index:1;}
-.sel-wrap{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;width:100%;padding:0 3vw;}
+.sel-wrap{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;width:100%;padding:0 20%;}
 .sel-ttl{
   font-family:'Orbitron',monospace;font-weight:700;
   color:#0ff;font-size:clamp(12px,2.2vw,20px);letter-spacing:6px;
   text-shadow:0 0 12px #0ff;margin-bottom:14px;
 }
-.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:600px;}
+.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:none;}
 .sc{
   background:rgba(0,8,30,0.85);
   border:1px solid rgba(0,200,255,0.25);
@@ -687,19 +687,17 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
 
     <div class="sel-ttl">STAGE SELECT</div>
 
-    <!-- ★ここ1個にまとめる -->
-    <div class="stage-grid" id="stageGrid">
+    <!-- ステージボタン -->
+    <div class="stage-grid" id="stageGrid"></div>
 
-      <!-- JSでステージ生成される -->
-
-      <!-- ENDLESSもここに入れる -->
+    <!-- ★ここにENDLESSを統合（重要） -->
+    <div class="stage-grid">
       <div class="sc endless" id="endlessBtn">
         ∞ ENDLESS
       </div>
-
     </div>
 
-    <!-- ハイスコア -->
+    <!-- ハイスコア（そのまま残す） -->
     <div id="endlessHiScore">
       <div class="hs-ttl">∞ ENDLESS — HIGH SCORES</div>
       <div class="hs-list" id="hsList"></div>
