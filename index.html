@@ -1133,16 +1133,28 @@ function showScreen(id){
 
 function buildCards(){
   const g=document.getElementById('stageGrid');g.innerHTML='';
+
+  // カードごとにイベントは付けず、グリッド親に1つだけ pointerup を置く。
+  // 離した先の要素から最寄りの .sc を探し、そこで判定する。
+  // これにより: 押し始めの位置ではなく「離した位置のカード」が選択され、
+  // カード外で離した場合は何も起きない。
+  g.addEventListener('pointerup', e => {
+    const card = e.target.closest('.sc');
+    if (!card || card.classList.contains('sc-locked')) return;
+    const idx = card.dataset.stageIdx;
+    if (idx !== undefined) { showTutorial(Number(idx)); return; }
+    if (card.dataset.endless === '1') { showEndlessTutorial(); }
+  });
+
   STAGES.forEach((st,i)=>{
     const foods=EM.filter(e=>e.stage===st.id).map(e=>e.food).join(' · ');
     const d=document.createElement('div');d.className='sc';
+    d.dataset.stageIdx=i;
     d.innerHTML=`<span class="sc-icon">${st.icon}</span>
       <div class="sc-en">${st.en}</div>
       <div class="sc-name">${st.name}</div>
       <div class="sc-diff" style="color:${st.diffColor}">${st.diff}</div>
       <div class="sc-foods">${foods}</div>`;
-    const go=()=>showTutorial(i);
-    d.addEventListener('pointerup',e=>{if(d.contains(e.target))go();});
     g.appendChild(d);
   });
 
@@ -1152,6 +1164,7 @@ function buildCards(){
   const ec=document.createElement('div');
   ec.className='sc' + (unlocked ? '' : ' sc-locked');
   ec.style.cssText='display:flex;align-items:center;gap:16px;padding:13px 18px;';
+  if(unlocked) ec.dataset.endless='1';
 
   if(unlocked){
     ec.innerHTML=`
@@ -1166,8 +1179,6 @@ function buildCards(){
       </div>
       <div style="font-family:'Orbitron',monospace;font-size:clamp(20px,3.5vw,28px);color:#ff69b4;
         text-shadow:0 0 14px #ff69b4;letter-spacing:2px;flex-shrink:0;">∞</div>`;
-    const go=()=>showEndlessTutorial();
-    ec.addEventListener('pointerup',e=>{if(ec.contains(e.target))go();});
   } else {
     ec.innerHTML=`
       <span style="font-size:24px;flex-shrink:0;opacity:0.4;">🔒</span>
