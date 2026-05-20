@@ -6,6 +6,16 @@
 <title>MIDNIGHT DEFENSE</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap');
+
+/* ★ここに追加 */
+body {
+  font-family:
+    'Orbitron',
+    'Share Tech Mono',
+    'Noto Sans JP',
+    sans-serif;
+}
+
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;background:#000;overflow:hidden;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
@@ -481,16 +491,27 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
   min-height:200px;
 }
 
-#stageScreen,
-#resultScreen {
+.sc.endless {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+#stageScreen {
   overflow-y: auto;
+}
+
+#resultScreen {
+  overflow: hidden;
 }
 
 @media (max-width: 600px) {
   .res-wrap,
   .stage-grid {
-    grid-template-columns: 1fr;
-  }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
 }
 
 /* ─── GAME UI ─── */
@@ -652,13 +673,27 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
 <!-- ═══ STAGE SELECT ═══ -->
 <div id="stageScreen" class="screen">
   <div class="sel-wrap">
+
     <div class="sel-ttl">STAGE SELECT</div>
+
+    <!-- ステージボタン -->
     <div class="stage-grid" id="stageGrid"></div>
+
+    <!-- ★ここにENDLESSを統合（重要） -->
+    <div class="stage-grid">
+      <div class="sc endless" id="endlessBtn">
+        ∞ ENDLESS
+      </div>
+    </div>
+
+    <!-- ハイスコア（そのまま残す） -->
     <div id="endlessHiScore">
       <div class="hs-ttl">∞ ENDLESS — HIGH SCORES</div>
       <div class="hs-list" id="hsList"></div>
     </div>
+
     <button class="sel-back-btn" id="btnBack">◄ &nbsp;BACK</button>
+
   </div>
 </div>
 
