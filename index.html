@@ -355,13 +355,13 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
 /* ─── STAGE SELECT ─── */
 #stageScreen{background:#03020f;}
 #stage-canvas{position:absolute;inset:0;z-index:1;}
-.sel-wrap{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;width:100%;padding:0 3vw;}
+.sel-wrap{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;width:100%;padding:0 20%;}
 .sel-ttl{
   font-family:'Orbitron',monospace;font-weight:700;
   color:#0ff;font-size:clamp(12px,2.2vw,20px);letter-spacing:6px;
   text-shadow:0 0 12px #0ff;margin-bottom:14px;
 }
-.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:600px;}
+.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:none;}
 .sc{
   background:rgba(0,8,30,0.85);
   border:1px solid rgba(0,200,255,0.25);
@@ -502,7 +502,7 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
 
 @media (max-width: 768px) {
   .stage-grid {
-    width: 60vw;
+    width: 100%;
     margin: 0 auto;
   }
 }
@@ -522,7 +522,8 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   width: 100%;
-  max-width: 600px;
+  max-width: none;
+  }
 }
 
 /* ─── GAME UI ─── */
@@ -1134,10 +1135,11 @@ function showScreen(id){
 function buildCards(){
   const g=document.getElementById('stageGrid');g.innerHTML='';
 
-  // カードごとにイベントは付けず、グリッド親に1つだけ pointerup を置く。
-  // 離した先の要素から最寄りの .sc を探し、そこで判定する。
-  // これにより: 押し始めの位置ではなく「離した位置のカード」が選択され、
-  // カード外で離した場合は何も起きない。
+  // グリッド親に pointerup を1つだけ登録。
+  // 離した位置の .sc を closest() で探して判定することで、
+  // ・カード外で離す → 何もしない
+  // ・スライドして別カードで離す → 離した先のカードを選択
+  // を実現する。click / touchend はカード側に持たせない。
   g.addEventListener('pointerup', e => {
     const card = e.target.closest('.sc');
     if (!card || card.classList.contains('sc-locked')) return;
