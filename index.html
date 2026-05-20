@@ -481,6 +481,16 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
   min-height:200px;
 }
 
+  @media (max-width: 768px) {
+  .res-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+#resultScreen {
+  overflow-y: auto;
+}
+
 /* ─── GAME UI ─── */
 #gameUI{position:absolute;inset:0;pointer-events:none;z-index:20;font-family:'Share Tech Mono',monospace;}
 #gameUI button{pointer-events:auto;}
