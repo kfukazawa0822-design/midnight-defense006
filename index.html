@@ -481,14 +481,16 @@ canvas{display:block;position:absolute;top:0;left:0;pointer-events:none;}
   min-height:200px;
 }
 
-  @media (max-width: 768px) {
-  .res-wrap {
-    grid-template-columns: 1fr;
-  }
-}
-
+#stageScreen,
 #resultScreen {
   overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .res-wrap,
+  .stage-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ─── GAME UI ─── */
